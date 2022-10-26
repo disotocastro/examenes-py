@@ -20,7 +20,6 @@ def menuBus(costoLitro):
     pasajerosSinEspacio = 0
 
     i = 1
-    k = 1
 
     costoTotalCarreras = 0
     cola = 0
@@ -31,47 +30,81 @@ def menuBus(costoLitro):
     tipoBus = 1
 
     while i < cantidadCarreras+1:
+
         pasajeros += int(input("Ingrese el numero de pasajeros: "))
 
-        pasajerosTotales += pasajeros-cola
+        while tipoBus < 3:
+            pasajerosTotales += pasajeros-cola
 
-        pasajerosEnBus = PasajerosAbordados(i, pasajeros)
-        costoTotalCarreras += CostoCarrera(i,
-                                           pasajerosEnBus, distancia, costoLitro)
-        pasajerosAbordadosCorrectamente += pasajerosEnBus
-        pasajerosSinEspacio = SinEspacio(pasajeros, pasajerosEnBus)
+            pasajerosEnBus = PasajerosAbordados(tipoBus, pasajeros)
+            costoTotalCarreras += CostoCarrera(tipoBus,
+                                               pasajerosEnBus, distancia, costoLitro)
+            pasajerosAbordadosCorrectamente += pasajerosEnBus
+            pasajerosSinEspacio = SinEspacio(pasajeros, pasajerosEnBus)
 
-        if pasajerosSinEspacio > 0:
-            cola += pasajerosSinEspacio
-            pasajeros = cola
-        else:
-            pasajeros = 0
+            if pasajerosSinEspacio > 0:
+                cola += pasajerosSinEspacio
+                pasajeros = cola
+            else:
+                pasajeros = 0
 
-        tarifa = Tarifa(costoTotalCarreras,
-                        pasajerosAbordadosCorrectamente)
-        promedio = Promedio(pasajerosTotales,
-                            (cantidadCarreras))
-
-        if i == 1:
-            Imprimir(tipoBus, costoTotalCarreras, tarifa, promedio)
-
-        if i == 2:
-            Imprimir(tipoBus, costoTotalCarreras, tarifa, promedio)
-
-        if i == 3:
-            Imprimir(tipoBus, costoTotalCarreras, tarifa, promedio)
+            tarifa = Tarifa(costoTotalCarreras,
+                            pasajerosAbordadosCorrectamente)
+            promedio = Promedio(pasajerosTotales,
+                                (cantidadCarreras))
+            ActualizarValores(
+                tipoBus, costoTotalCarreras, tarifa, promedio)
+        i += 1
+    Imprimir(1)
+    Imprimir(2)
+    Imprimir(3)
 
 
-def Imprimir(tipoBus, costoTotalCarreras, tarifa, promedio):
+def ActualizarValores(tipoBus, costoTotalCarreras, tarifa, promedio):
+    global promedio_1, promedio_2, promedio_3
+    global costoTotal_1, costoTotal_2, costoTotal_3
+    global tarifa_1, tarifa_2, tarifa_3
+
+    promedio_1 = 0
+    promedio_2 = 0
+    promedio_3 = 0
+
+    costoTotal_1 = 0
+    costoTotal_2 = 0
+    costoTotal_3 = 0
+
+    tarifa_1 = 0
+    tarifa_2 = 0
+    tarifa_3 = 0
+
+    if tipoBus == 1:
+        promedio_1 = promedio
+        costoTotal_1 = costoTotalCarreras
+        tarifa_1 = tarifa
+    if tipoBus == 2:
+        promedio_2 = promedio
+        costoTotal_2 = costoTotalCarreras
+        tarifa_2 = tarifa
+    if tipoBus == 3:
+        promedio_3 = promedio
+        costoTotal_3 = costoTotalCarreras
+        tarifa_3 = tarifa
+
+
+def Imprimir(tipoBus):
     nombreBus = ''
     if tipoBus == 1:
         nombreBus = "Microbus"
+        print(
+            f"{nombreBus}: Pasajeros sin viajar: {0} - Promedio: {round(promedio_1)} - Costo Total: {round(costoTotal_1)} - Tarifa: {round(tarifa_1)}")
     if tipoBus == 2:
         nombreBus = "Autobus"
+        print(
+            f"{nombreBus}: Pasajeros sin viajar: {0} - Promedio: {round(promedio_2)} - Costo Total: {round(costoTotal_2)} - Tarifa: {round(tarifa_2)}")
     if tipoBus == 3:
         nombreBus = "Dos pisos"
-    print(
-        f"{nombreBus}: Pasajeros sin viajar: {0} - Promedio: {round(promedio)} - Costo Total: {round(costoTotalCarreras)} - Tarifa: {round(tarifa)}")
+        print(
+            f"{nombreBus}: Pasajeros sin viajar: {0} - Promedio: {round(promedio_3)} - Costo Total: {round(costoTotal_3)} - Tarifa: {round(tarifa_3)}")
 
 
 def SinEspacio(pasajerosTotales, pasajerosEnBus):
